@@ -23,19 +23,19 @@ public class AuthRunner implements ApplicationRunner {
         // Admin
         Optional<AppUser> adminUser = appUserService.findByUsername("admin");
         if (adminUser.isEmpty()) {
-            appUserService.registerUser("admin", "admin@email.com", "adminpwd", Set.of(Role.ROLE_ADMIN));
+            appUserService.registerUser("admin", "admin@email.com", "adminpwd", "https://example.com/admin.png", Set.of(Role.ROLE_ADMIN));
         }
 
         // User
         Optional<AppUser> normalUser = appUserService.findByUsername("user");
         if (normalUser.isEmpty()) {
-            appUserService.registerUser("user", "user@email.com", "userpwd", Set.of(Role.ROLE_USER));
+            appUserService.registerUser("user", "user@email.com", "userpwd", "https://example.com/user.png", Set.of(Role.ROLE_USER));
         }
 
         // Seller
         Optional<AppUser> normalSeller = appUserService.findByUsername("seller");
         if (normalSeller.isEmpty()) {
-            appUserService.registerUser("seller", "seller@email.com", "sellerpwd", Set.of(Role.ROLE_SELLER));
+            appUserService.registerUser("seller", "seller@email.com", "sellerpwd","https://example.com/seller.png", Set.of(Role.ROLE_SELLER));
         }
     }
 }

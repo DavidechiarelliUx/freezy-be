@@ -33,6 +33,9 @@ public class AppUser implements UserDetails {
     @JsonIgnore
     private String password;
 
+    @Column(name = "profile_image")
+    private String profileImage;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
