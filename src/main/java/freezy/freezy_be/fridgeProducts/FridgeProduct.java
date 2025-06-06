@@ -1,5 +1,6 @@
 package freezy.freezy_be.fridgeProducts;
 
+import freezy.freezy_be.auth.AppUser;
 import freezy.freezy_be.productTemplates.ProductTemplate;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,5 +31,7 @@ public class FridgeProduct {
     private ProductTemplate productTemplate;
 
     //quando avremo utente lo aggiungeremo metteremo qui
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private AppUser owner;
 }

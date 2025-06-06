@@ -1,5 +1,6 @@
 package freezy.freezy_be.fridgeProducts;
 
+import freezy.freezy_be.auth.AppUser;
 import freezy.freezy_be.productTemplates.ProductTemplate;
 import freezy.freezy_be.productTemplates.ProductTemplateRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -39,10 +42,19 @@ public class FridgeProductService {
         );
     }
 
-    public FridgeProductResponse create(FridgeProductRequest request) {
+    public FridgeProductResponse create(FridgeProductRequest request, AppUser user) {
+        if (user == null) throw new RuntimeException("Utente non autenticato!");
         FridgeProduct fridgeProduct = toEntity(request);
+        fridgeProduct.setOwner(user);
         fridgeProductRepository.save(fridgeProduct);
         return toDTO(fridgeProduct);
+    }
+
+    public List<FridgeProductResponse> findByOwner(AppUser user) {
+        return fridgeProductRepository.findByOwner(user)
+                .stream()
+                .map(this::toDTO)
+                .toList();
     }
 
     public Page<FridgeProductResponse> findAll(int page, int size, String sortBy) {

@@ -26,8 +26,9 @@ public class AuthController {
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
         appUserService.registerUser(
                 registerRequest.getUsername(),
+                registerRequest.getEmail(),
                 registerRequest.getPassword(),
-                Set.of(Role.ROLE_USER) // Assegna il ruolo di default
+                Set.of(Role.ROLE_USER)
         );
         return ResponseEntity.ok("Registrazione avvenuta con successo");
     }
@@ -39,6 +40,10 @@ public class AuthController {
                 loginRequest.getUsername(),
                 loginRequest.getPassword()
         );
-        return ResponseEntity.ok(new AuthResponse(token));
+
+        // Recupera anche l'utente per inviare i ruoli
+        AppUser user = appUserService.loadUserByUsername(loginRequest.getUsername());
+
+        return ResponseEntity.ok(new AuthResponse(token, user.getRoles()));
     }
 }

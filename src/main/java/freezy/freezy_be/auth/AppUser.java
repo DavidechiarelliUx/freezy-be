@@ -25,6 +25,9 @@ public class AppUser implements UserDetails {
     @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Column(nullable = false)
     @ToString.Exclude
     @JsonIgnore
